@@ -23,7 +23,7 @@ The other values can be found on your Auth0 profile after completing the pre-hom
 
 > *NOTE: Don't include quotes in the `.env` file. If you're having trouble creating a connection with your DB in Google Cloud, try inputting the values directly into the `connection.js` file.*
 
-4. Navigate to the `sql/connections.js` file and confirm you under stand why the fields are using `process.env.SOMETHING`. Where are they coming from?
+4. Navigate to the `sql/connections.js` file and confirm you understand why the fields are using `process.env.SOMETHING`. Where are they coming from?
 
 ```js
     host: process.env.DB_HOST,
@@ -52,7 +52,7 @@ In Postman or a web browser, navigate to `http://localhost:4001/users/` (a GET r
 
 ## POST / PUT / DELETE
 
-These routes are for manipulating the data and these are things that we ideally want someone to be logged in for before they are able to work with the data. To start, we will create a middleware function (that Auth0) provides us. We also want to create an empty `.env` file in the main folder. We will use this to hold all of the Auth0 environment variables for our application. We don't want to upload these to Github.
+These routes are for manipulating the data and these are things that we ideally want someone to be logged in for before they are able to work with the data. To start, we will create a middleware function (that Auth0 provides us). We also want to create an empty `.env` file in the main folder. We will use this to hold all of the Auth0 environment variables for our application. We don't want to upload these to Github.
 
 ### Middleware
 
@@ -64,7 +64,7 @@ In the `middleware/index.js` file, locate the function called `checkJwt`. We wil
 AUTH0_IDENTITY=my-express-app
 ```
 
-2. Notice the `AUTH0_DOMAIN` variable. This is the domain associated with your account. This one is a little harder to find. Essentially... it's your your tenant id (from Auth0) followed by `.us.auth0.com`. You can find the tenant ID to the left of your profile in the upper right-hand corner of the Auth0 page (when signed in). So for example if your tenant id is "dev-t4vriwms" then your domain will be "dev-t4vriwms.us.auth0.com". You likely did this in the setup steps but if now, make sure to add this to the `.env` file as well. It will now look like this:
+2. Notice the `AUTH0_DOMAIN` variable. This is the domain associated with your account. This one is a little harder to find. Essentially... it's your your tenant id (from Auth0) followed by `.us.auth0.com`. You can find the tenant ID to the left of your profile in the upper right-hand corner of the Auth0 page (when signed in). So for example if your tenant id is "dev-t4vriwms" then your domain will be "dev-t4vriwms.us.auth0.com". You likely did this in the setup steps but if not, make sure to add this to the `.env` file as well. It will now look like this:
 
 ```yaml
 AUTH0_IDENTITY=my-express-app
@@ -79,7 +79,7 @@ Now we need to apply this middleware to the routes you want to protect. Before y
 }
 ```
 
-In order to prevent this, we need to go to that route, the third one down in the `routers/users.js` file, and add `checkJWt` in between the path and the request/response function. The final result should look like this:
+In order to prevent this, we need to go to that route, the third one down in the `routers/users.js` file, and add `checkJwt` in between the path and the request/response function. The final result should look like this:
 
 ```js
 // routes/users line 10
@@ -112,11 +112,11 @@ Execute the request and notice that you are allowed to add users again and see a
 
 Ok so we now have protected routes and some users can access them if they have the appropriate token but where do they get that token from? We need to create a workflow that sends back a token when a user logs in. We need to do that by calling an Auth0 endpoint during the login endpoint.
 
-Find the "login" function in [controllers/auth.js](./controllers/auth.js). You'll see that the call the the Auth0 endpoint is mostly complete but we still need to do a few things.
+Find the "login" function in [controllers/auth.js](./controllers/auth.js). You'll see that the call to the Auth0 endpoint is mostly complete but we still need to do a few things.
 
 1. Set the default directory on your Auth0 account to "Username-Password-Authentication". You can do this by clicking on your profile icon in the top right corner of your dashboard and selecting "Settings". On the settings page scroll down to "API Authorization Settings" -> "Default Directory".
 
-2. There are two other environment variables we need to set in our `.env` file. They are "AUTH0_CLIENT_ID" and "AUTH0_CLIENT_SECRET". You can find this information in the same place we copied the test bearer token from. In the first box find the "client_id" and "client_secret" keys. Again, if you haven't already, ddd them to your `.env` file. The complete file should now look like this:
+2. There are two other environment variables we need to set in our `.env` file. They are "AUTH0_CLIENT_ID" and "AUTH0_CLIENT_SECRET". You can find this information in the same place we copied the test bearer token from. In the first box find the "client_id" and "client_secret" keys. Again, if you haven't already, add them to your `.env` file. The complete file should now look like this:
 
 ```yaml
 AUTH0_IDENTITY=my-express-app
@@ -152,7 +152,7 @@ If you are having issues you may try going to Auth0 >> Settings/Dashboard >> App
 
 ## BONUS - logger
 
-Create a function called `logger` in the `middleware/index.js` file. It's purpose will be to log the route and date/time that each request happened. The outline of the function will look like this:
+Create a function called `logger` in the `middleware/index.js` file. Its purpose will be to log the route and date/time that each request happened. The outline of the function will look like this:
 
 ```js
 const logger = (req, res, next) => {
